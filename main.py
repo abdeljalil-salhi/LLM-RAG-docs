@@ -1,14 +1,9 @@
-from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
-from langchain.schema import Document
+from sys import argv
 
-DATA_DIR = "data/medicine"
-
-
-def load_documents():
-    loader = PyPDFDirectoryLoader(DATA_DIR)
-    documents = loader.load()
-    return documents
-
+from populate_db import PopulateDB
 
 if __name__ == "__main__":
-    documents = load_documents()
+    if len(argv) > 1:
+        if argv[1] in ["--populate", "-p"]:
+            populator = PopulateDB()
+            populator.run()
