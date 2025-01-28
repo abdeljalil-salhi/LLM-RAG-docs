@@ -3,14 +3,17 @@ from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from app.chroma import add_to_db
+from utils.db import clear_db
 from utils.logger import logger
 
 
 class PopulateDB:
-    def __init__(self) -> None:
+    def __init__(self, clear: bool = False) -> None:
         self.DATA_DIR = "data/medicine"
         self.documents = []
         self.chunks = []
+        if clear:
+            clear_db()
 
     def run(self) -> None:
         """
