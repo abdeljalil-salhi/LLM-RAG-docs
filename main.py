@@ -1,6 +1,8 @@
 from sys import argv
 
 from app.populate_db import PopulateDB
+from app.query_rag import query_rag
+from utils.logger import logger
 
 
 def check_argv(argument: str, argv: list[str]) -> bool:
@@ -18,3 +20,24 @@ if __name__ == "__main__":
             else:
                 populator = PopulateDB()
             populator.run()
+
+    logger.info("Application started.")
+    logger.info("Welcome to your personal library! Type 'exit' to quit.")
+
+    while True:
+        try:
+            query = input(">>> ")
+            if query.strip().lower() == "exit":
+                logger.info("Application closed. Goodbye!")
+                break
+
+            query_rag(query)
+
+        except KeyboardInterrupt:
+            logger.info("Application closed. Goodbye!")
+            break
+
+        except Exception as e:
+            logger.error(f"An error occurred: {e}")
+            logger.error("Please try again.")
+            continue
