@@ -1,21 +1,24 @@
-from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
 from langchain.schema.document import Document
+from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+from app.chroma import add_to_db
 from utils.logger import logger
 
 
 class PopulateDB:
     def __init__(self) -> None:
         self.DATA_DIR = "data/medicine"
-        self.documents = self.load_documents()
+        self.documents = []
+        self.chunks = []
 
     def run(self) -> None:
         """
         Populate the database with documents.
         """
-        chunks = self.split_documents()
-        print(chunks[-1])
+        self.documents = self.load_documents()
+        self.chunks = self.split_documents()
+        add_to_db(self.chunks)
 
     def load_documents(self) -> list[Document]:
         """
