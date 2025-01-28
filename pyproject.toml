@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "rag-docs"
+version = "0.1.0"
+description = "RAG Docs"
+authors = ["Abdel <abdelisloading@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.3.16"
+chromadb = "^0.6.3"
+pypdf = "^5.2.0"
+pytest = "^8.3.4"
+langchain-community = "^0.3.16"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+isort = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80
+extend-exclude = """
+    /(
+        .venv |
+        venv |
+        .git |
+    )
+    """
+
+[tool.isort]
+profile = "black"
+line_length = 80
+skip = """
+    .venv
+    venv
+    .git
+    """
