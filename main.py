@@ -1,14 +1,20 @@
-from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
-from langchain.schema import Document
+from sys import argv
 
-DATA_DIR = "data/medicine"
+from app.populate_db import PopulateDB
 
 
-def load_documents():
-    loader = PyPDFDirectoryLoader(DATA_DIR)
-    documents = loader.load()
-    return documents
+def check_argv(argument: str, argv: list[str]) -> bool:
+    """
+    Check if an argument is present in the command line arguments.
+    """
+    return argument in argv
 
 
 if __name__ == "__main__":
-    documents = load_documents()
+    if len(argv) > 1:
+        if check_argv("--populate", argv) or check_argv("-p", argv):
+            if check_argv("--clear", argv) or check_argv("-c", argv):
+                populator = PopulateDB(clear=True)
+            else:
+                populator = PopulateDB()
+            populator.run()
