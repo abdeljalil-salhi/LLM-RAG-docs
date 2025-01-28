@@ -9,7 +9,7 @@ from utils.logger import logger
 
 class PopulateDB:
     def __init__(self, clear: bool = False) -> None:
-        self.DATA_DIR = "data/medicine"
+        self.DATA_DIR = "data"
         self.documents = []
         self.chunks = []
         if clear:
@@ -28,7 +28,7 @@ class PopulateDB:
         Load data into Document objects.
         """
         logger.info(f"Loading documents from {self.DATA_DIR}...")
-        loader = PyPDFDirectoryLoader(self.DATA_DIR)
+        loader = PyPDFDirectoryLoader(self.DATA_DIR, recursive=True)
         documents = loader.load()
         logger.info(f"Loaded {len(documents)} documents.")
         return documents
