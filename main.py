@@ -1,6 +1,6 @@
 from sys import argv
 
-from populate_db import PopulateDB
+from app.populate_db import PopulateDB
 
 if __name__ == "__main__":
     if len(argv) > 1:
