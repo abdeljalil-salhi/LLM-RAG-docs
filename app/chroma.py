@@ -28,7 +28,6 @@ def add_to_db(chunks: list[Document]) -> None:
 
         new_chunks_ids = [chunk.metadata["id"] for chunk in new_chunks]
         db.add_documents(new_chunks, ids=new_chunks_ids)
-        db.persist()
     else:
         logger.info("No new chunks to add to the database.")
 

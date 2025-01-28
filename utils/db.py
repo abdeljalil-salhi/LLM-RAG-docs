@@ -1,7 +1,7 @@
 from os import path
 from shutil import rmtree
 
-from langchain.vectorstores.chroma import Chroma
+from langchain_chroma import Chroma
 
 from app.get_embedding import get_embedding_fn
 from utils.logger import logger
