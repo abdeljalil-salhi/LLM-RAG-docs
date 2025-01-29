@@ -1,3 +1,6 @@
+from os import environ
+
+from groq import Groq
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM as Ollama
 
@@ -15,8 +18,17 @@ Answer the question based on the above context: {question}
 Don't mention the context in your answer.
 """
 
+SYSTEM_INSTRUCTIONS = """
+Instructions:
+- You are a person with knowledge in the field of medicine.
+- Be helpful and answer questions concisely. If you don't know the answer, say 'I don't know'
+- Utilize the context provided for accurate and specific information.
+- Incorporate your preexisting knowledge to enhance the depth and relevance of your response.
+- Try to use the scientific language and terminology of the field, also present in the context.
+"""
 
-def query_rag(query: str) -> str:
+
+def query_rag(query: str, use_groq: bool) -> str:
     """
     Query the database and return the result using the RAG model.
     """
@@ -29,8 +41,19 @@ def query_rag(query: str) -> str:
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query)
 
-    model = Ollama(model="mistral")
-    response = model.invoke(prompt)
+    if use_groq:
+        client = Groq(api_key=environ.get("GROQ_API_KEY"))
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": SYSTEM_INSTRUCTIONS},
+                {"role": "user", "content": prompt},
+            ],
+            model=environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
+        )
+        response = chat_completion.choices[0].message.content
+    else:
+        model = Ollama(model=environ.get("OLLAMA_MODEL", "mistral"))
+        response = model.invoke(f"{prompt}\n\n{SYSTEM_INSTRUCTIONS}")
 
     sources = [doc.metadata.get("id", None) for doc, _score in results]
     formatted_response = f"{response}\n\nSources: {sources}"

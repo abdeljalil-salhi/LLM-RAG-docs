@@ -1,3 +1,52 @@
 # RAG Docs
 
 Simple prototype for local LLM based RAG system.
+
+## Command-Line Arguments
+
+This script provides command-line arguments to manage and query a RAG-based system efficiently.
+
+### Usage:
+
+```bash
+python main.py [options]
+```
+
+Starts an interactive session after applying the specified options.
+
+### Available Arguments:
+
+| Argument     | Alias | Description                                                                                     |
+| ------------ | ----- | ----------------------------------------------------------------------------------------------- |
+| `--populate` | `-p`  | Populates the database with new data.                                                           |
+| `--clear`    | `-c`  | Clears the existing database before populating new data (used with `--populate`).               |
+| `--groq`     | `-g`  | Uses the Groq API for querying instead of the default model. Requires `GROQ_API_KEY` to be set. |
+
+### Examples:
+
+#### Populate the database:
+
+`python main.py --populate`  
+or  
+`python main.py -p`
+
+#### Clear and populate the database:
+
+`python main.py --populate --clear`  
+or  
+`python main.py -p -c`
+
+#### Run with Groq model (fastest, requires connection):
+
+`python main.py --groq`  
+or  
+`python main.py -g`
+
+### Environment Variables:
+
+- `GROQ_API_KEY`: Required when using the `--groq` (`-g`) option. Ensure it is set in your `.env` file.
+
+### Exiting the Application:
+
+- Type `exit` and press **Enter** to quit the interactive session.
+- Press **Ctrl + C** to force quit the application.
