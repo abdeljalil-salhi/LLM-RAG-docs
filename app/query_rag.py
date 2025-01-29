@@ -1,5 +1,8 @@
+from os import environ
+
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM as Ollama
+from groq import Groq
 
 from utils.db import get_db
 from utils.logger import logger
@@ -16,7 +19,7 @@ Don't mention the context in your answer.
 """
 
 
-def query_rag(query: str) -> str:
+def query_rag(query: str, use_groq: bool) -> str:
     """
     Query the database and return the result using the RAG model.
     """
@@ -29,8 +32,16 @@ def query_rag(query: str) -> str:
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query)
 
-    model = Ollama(model="mistral")
-    response = model.invoke(prompt)
+    if use_groq:
+        client = Groq(api_key=environ.get("GROQ_API_KEY"))
+        chat_completion = client.chat.completions.create(
+            messages=[{"role": "user", "content": prompt}],
+            model="llama-3.3-70b-versatile",
+        )
+        response = chat_completion.choices[0].message.content
+    else:
+        model = Ollama(model="mistral")
+        response = model.invoke(prompt)
 
     sources = [doc.metadata.get("id", None) for doc, _score in results]
     formatted_response = f"{response}\n\nSources: {sources}"
