@@ -17,6 +17,7 @@ logging = "^0.4.9.6"
 colorlog = "^6.9.0"
 langchain-ollama = "^0.2.2"
 langchain-chroma = "^0.2.1"
+groq = "^0.15.0"
 
 
 [tool.poetry.group.dev.dependencies]
