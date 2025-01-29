@@ -24,7 +24,7 @@ def add_to_db(chunks: list[Document]) -> None:
             new_chunks.append(chunk)
 
     if len(new_chunks):
-        logger.info(f"Adding {len(new_chunks)} new chunks to the database.")
+        logger.info(f"Adding {len(new_chunks)} new chunks to the database...")
 
         new_chunks_ids = [chunk.metadata["id"] for chunk in new_chunks]
         db.add_documents(new_chunks, ids=new_chunks_ids)
