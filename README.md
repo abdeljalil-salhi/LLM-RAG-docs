@@ -49,21 +49,33 @@ Starts an interactive session after applying the specified options.
 
 #### Populate the database:
 
-`python main.py --populate`  
-or  
-`python main.py -p`
+```bash
+python main.py --populate
+```
+
+```bash
+python main.py -p
+```
 
 #### Clear and populate the database:
 
-`python main.py --populate --clear`  
-or  
-`python main.py -p -c`
+```bash
+python main.py --populate --clear
+```
+
+```bash
+python main.py -p -c
+```
 
 #### Run with Groq model (fastest, requires connection):
 
-`python main.py --groq`  
-or  
-`python main.py -g`
+```bash
+python main.py --groq
+```
+
+```bash
+python main.py -g
+```
 
 ### Environment Variables:
 
