@@ -1,8 +1,8 @@
 from os import environ
 
+from groq import Groq
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM as Ollama
-from groq import Groq
 
 from utils.db import get_db
 from utils.logger import logger

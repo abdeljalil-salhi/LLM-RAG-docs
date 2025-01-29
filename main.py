@@ -1,5 +1,6 @@
-from sys import argv
 from os import environ
+from sys import argv
+
 from dotenv import load_dotenv
 
 from app.populate_db import PopulateDB
