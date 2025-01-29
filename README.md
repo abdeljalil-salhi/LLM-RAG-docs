@@ -2,6 +2,29 @@
 
 Simple prototype for local LLM based RAG system.
 
+- [Installation](#installation)
+- [Command-Line Arguments](#command-line-arguments)
+  - [Available Arguments](#available-arguments)
+  - [Examples](#examples)
+    - [Populate the database](#populate-the-database)
+    - [Clear and populate the database](#clear-and-populate-the-database)
+    - [Run with Groq model (fastest, requires connection)](#run-with-groq-model-fastest-requires-connection)
+  - [Environment Variables](#environment-variables)
+
+## Installation
+
+Install `poetry` using the following command:
+
+```bash
+pip install poetry
+```
+
+Install the dependencies using the following command:
+
+```bash
+poetry install
+```
+
 ## Command-Line Arguments
 
 This script provides command-line arguments to manage and query a RAG-based system efficiently.
