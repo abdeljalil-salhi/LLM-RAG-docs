@@ -3,13 +3,14 @@ from langchain.schema.document import Document
 from utils.db import get_db
 from utils.logger import logger
 
+BATCH_SIZE = 5000 # Size limit is 5461
+
 
 def add_to_db(chunks: list[Document]) -> None:
     """
-    Add chunks to the database if they are not already present.
+    Add chunks to the database if they are not already present, in batches.
     """
     db = get_db()
-
     chunks = calculate_chunk_ids(chunks)
 
     existing_items = db.get(include=[])
@@ -18,18 +19,28 @@ def add_to_db(chunks: list[Document]) -> None:
         f"Number of existing items in the database: {len(existing_ids)}"
     )
 
-    new_chunks = []
-    for chunk in chunks:
-        if chunk.metadata["id"] not in existing_ids:
-            new_chunks.append(chunk)
+    new_chunks = [
+        chunk for chunk in chunks if chunk.metadata["id"] not in existing_ids
+    ]
 
-    if len(new_chunks):
-        logger.info(f"Adding {len(new_chunks)} new chunks to the database...")
-
-        new_chunks_ids = [chunk.metadata["id"] for chunk in new_chunks]
-        db.add_documents(new_chunks, ids=new_chunks_ids)
-    else:
+    if not new_chunks:
         logger.info("No new chunks to add to the database.")
+        return
+
+    logger.info(
+        f"Adding {len(new_chunks)} new chunks to the database in batches..."
+    )
+
+    for i in range(0, len(new_chunks), BATCH_SIZE):
+        batch = new_chunks[i : i + BATCH_SIZE]
+        batch_ids = [chunk.metadata["id"] for chunk in batch]
+
+        logger.info(
+            f"Adding batch {i // BATCH_SIZE + 1}/{(len(new_chunks) // BATCH_SIZE) + 1}..."
+        )
+        db.add_documents(batch, ids=batch_ids)
+
+    logger.info("All chunks successfully added to the database.")
 
 
 def calculate_chunk_ids(chunks: list[Document]) -> list[Document]:
