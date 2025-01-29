@@ -48,11 +48,11 @@ def query_rag(query: str, use_groq: bool) -> str:
                 {"role": "system", "content": SYSTEM_INSTRUCTIONS},
                 {"role": "user", "content": prompt},
             ],
-            model="llama-3.3-70b-versatile",
+            model=environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
         )
         response = chat_completion.choices[0].message.content
     else:
-        model = Ollama(model="mistral")
+        model = Ollama(model=environ.get("OLLAMA_MODEL", "mistral"))
         response = model.invoke(f"{prompt}\n\n{SYSTEM_INSTRUCTIONS}")
 
     sources = [doc.metadata.get("id", None) for doc, _score in results]
