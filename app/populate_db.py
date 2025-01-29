@@ -1,4 +1,5 @@
 from langchain.schema.document import Document
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -9,7 +10,7 @@ from utils.logger import logger
 
 class PopulateDB:
     def __init__(self, clear: bool = False) -> None:
-        self.DATA_DIR = "data/medicine"
+        self.DATA_DIR = "data"
         self.documents = []
         self.chunks = []
         if clear:
@@ -28,8 +29,19 @@ class PopulateDB:
         Load data into Document objects.
         """
         logger.info(f"Loading documents from {self.DATA_DIR}...")
-        loader = PyPDFDirectoryLoader(self.DATA_DIR)
+        loader = PyPDFDirectoryLoader(self.DATA_DIR, recursive=True)
         documents = loader.load()
+        loader = DirectoryLoader(self.DATA_DIR, recursive=True, glob="*.md")
+        documents += loader.load()
+        text_loader_kwargs = {"autodetect_encoding": True}
+        loader = DirectoryLoader(
+            self.DATA_DIR,
+            recursive=True,
+            glob="*.txt",
+            loader_cls=TextLoader,
+            loader_kwargs=text_loader_kwargs,
+        )
+        documents += loader.load()
         logger.info(f"Loaded {len(documents)} documents.")
         return documents
 

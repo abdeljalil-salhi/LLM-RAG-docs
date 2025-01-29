@@ -16,6 +16,7 @@ Answer the question based only on the following context:
 
 Answer the question based on the above context: {question}
 Don't mention the context in your answer.
+Please respond in the same language of the question.
 """
 
 SYSTEM_INSTRUCTIONS = """
