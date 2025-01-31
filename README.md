@@ -2,6 +2,8 @@
 
 Simple prototype for local LLM based RAG system.
 
+<img width="1255" alt="RAG Docs Demo" src="https://github.com/user-attachments/assets/b6947e13-1a84-4e56-a820-ad26b1783f53" />
+
 - [Installation](#installation)
 - [Command-Line Arguments](#command-line-arguments)
   - [Available Arguments](#available-arguments)
