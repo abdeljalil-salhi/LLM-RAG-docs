@@ -25,6 +25,14 @@ Install the dependencies using the following command:
 poetry install
 ```
 
+Serve the necessary Ollama models you specify in the `OLLAMA_MODEL` and `EMBEDDING_MODEL` environment variables. For example, following the `.env.example`, you should run the following commands:
+
+```bash
+ollama pull mistral
+ollama pull nomic-embed-text
+ollama serve
+```
+
 ## Command-Line Arguments
 
 This script provides command-line arguments to manage and query a RAG-based system efficiently.
