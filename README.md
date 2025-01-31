@@ -1,8 +1,10 @@
-# RAG Docs
+# LLM RAG Docs
 
 Simple prototype for local LLM based RAG system.
 
 <img width="1255" alt="RAG Docs Demo" src="https://github.com/user-attachments/assets/b6947e13-1a84-4e56-a820-ad26b1783f53" />
+
+---
 
 - [Installation](#installation)
 - [Command-Line Arguments](#command-line-arguments)
@@ -24,7 +26,7 @@ pip install poetry
 Install the dependencies using the following command:
 
 ```bash
-poetry install
+poetry install --no-root
 ```
 
 Serve the necessary Ollama models you specify in the `OLLAMA_MODEL` and `EMBEDDING_MODEL` environment variables. For example, following the `.env.example`, you should run the following commands:
